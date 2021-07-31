@@ -1,0 +1,86 @@
+import java.util.*;
+class Main
+{
+    public static void main(String [] args)
+    {
+        ArrayList<ArrayList<Integer>>lt=new ArrayList<>();
+        Scanner kb=new Scanner(System.in);
+        int n=kb.nextInt();
+        for(int i=0;i<n;i++)
+        {
+            lt.add(i,new ArrayList<Integer>());
+        }
+        int q=kb.nextInt();
+        for(int i=0;i<q;i++)
+        {
+            int v=kb.nextInt();
+            int e=kb.nextInt();
+            lt.get(v).add(e);
+            lt.get(e).add(v);
+        }
+        System.out.println("Input completed!");
+        ArrayList<Integer> result=dfsTraversal(n,lt);
+        // ArrayList<Integer> result=bfsTraversal(n,lt);
+        for(Integer item: result)
+        {
+            System.out.print(item+" ");
+        }
+    }
+    public static ArrayList<Integer> bfsTraversal(int n,ArrayList<ArrayList<Integer>> lt)
+    {
+        ArrayList<Integer> result=new ArrayList<>();
+        boolean vis[]=new boolean[n];
+        for(int x=0;x<n;x++)
+        {
+            if(vis[x]==false)
+            {
+                Queue<Integer> q=new LinkedList<>();
+                vis[x]=true;
+                q.add(x);
+                while(!q.isEmpty())
+                {
+                    int node=q.poll();
+                    result.add(node+1);
+                    for(Integer i: lt.get(node))
+                    {
+                        if(vis[i]==false)
+                        {
+                            vis[i]=true;
+                            q.add(i);                    
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+    
+    public static ArrayList<Integer> dfsTraversal(int n,ArrayList<ArrayList<Integer>> lt)
+    {
+        ArrayList<Integer> result=new ArrayList<>();
+        boolean vis[]=new boolean[n];
+        for(int x=0;x<n;x++)
+        {
+            if(vis[x]==false)
+            {
+                Stack<Integer> q=new Stack<>();
+                vis[x]=true;
+                q.push(x);
+                while(!q.isEmpty())
+                {
+                    int node=q.pop();
+                    result.add(node+1);
+                    for(Integer i: lt.get(node))
+                    {
+                        if(vis[i]==false)
+                        {
+                            vis[i]=true;
+                            q.push(i);                    
+                        }
+                    }
+                }
+            }
+        }
+        return result;
+    }
+}
